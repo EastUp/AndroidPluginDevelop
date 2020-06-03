@@ -1,0 +1,3 @@
+include ':resourceplugin'
+include ':app'
+rootProject.name = "AndroidPluginDevelop"
