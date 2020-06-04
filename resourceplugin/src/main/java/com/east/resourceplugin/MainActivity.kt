@@ -22,6 +22,7 @@ class MainActivity : BaseSkinActivity() {
         val copyResult = copyAssetAndWrite("red.skin") // 拷贝到本地缓存
         if(!copyResult){
             Toast.makeText(this,"没有拷贝成功,确保assets目录下有资源文件",Toast.LENGTH_SHORT).show()
+            return
         }
         val SkinPath = File(cacheDir, "red.skin").absolutePath
 

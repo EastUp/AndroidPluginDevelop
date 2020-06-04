@@ -1,6 +1,8 @@
 package com.east.androidplugindevelop
 
 import android.app.Application
+import com.east.androidplugindevelop.hook.HookInstrumentation
+import java.io.File
 
 /**
  * |---------------------------------------------------------------------------------------------------------------|
