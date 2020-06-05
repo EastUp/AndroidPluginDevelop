@@ -1,3 +1,4 @@
+include ':plugin'
 include ':resourceplugin'
 include ':app'
 rootProject.name = "AndroidPluginDevelop"

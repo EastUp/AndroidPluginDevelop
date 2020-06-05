@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -7,35 +7,145 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_margin="10dp"
-        android:onClick="onClick"
-        android:text="跳转到本地没在AndroidManifest注册的Activity中"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <Button
-        android:layout_margin="10dp"
-        android:onClick="loadPlugin"
-        android:text="加载插件"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_test_area"
+            android:orientation="vertical"
+            android:padding="@dimen/test_area_padding">
 
-    <Button
-        android:layout_margin="10dp"
-        android:onClick="startPluginActivity"
-        android:text="启动插件类"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="activity" />
 
-    <Button
-        android:layout_margin="10dp"
-        android:onClick="startPluginService"
-        android:text="启动插件的Service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/startLocalActivity"
+                android:onClick="onClick"
+                android:text="跳转到本地没在AndroidManifest注册的Activity中"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/startPluginActivityByHook"
+                android:text="启动插件类 By Hook"
+                android:onClick="onClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/startPluginActivityByInterface"
+                android:text="启动插件类 By Interface"
+                android:onClick="onClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/startPluginActivityByReflect"
+                android:text="启动插件类 By Reflect"
+                android:onClick="onClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_test_area"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="service" />
 
-</LinearLayout>
+            <Button
+                android:id="@+id/startPluginService"
+                android:onClick="onClick"
+                android:text="启动插件服务"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_test_area"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="broadcast" />
+
+            <Button
+                android:id="@+id/registerPluginBroadcast"
+                android:onClick="onClick"
+                android:text="注册插件广播"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/unregisterPluginBroadcast"
+                android:onClick="onClick"
+                android:text="取消注册插件广播"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/sendPluginBroadcast"
+                android:onClick="onClick"
+                android:text="发送插件广播"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_test_area"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="content provider" />
+
+            <Button
+                android:id="@+id/queryContentProvider"
+                android:onClick="onClick"
+                android:text="query content provider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/queryContentProvider2"
+                android:onClick="onClick"
+                android:text="query content provider2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

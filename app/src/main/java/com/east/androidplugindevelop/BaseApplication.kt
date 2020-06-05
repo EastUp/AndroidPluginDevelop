@@ -1,7 +1,11 @@
 package com.east.androidplugindevelop
 
 import android.app.Application
-import com.east.androidplugindevelop.hook.HookInstrumentation
+import com.east.androidplugindevelop.activity.hook.dex.LoadPluginDexManager
+import com.east.androidplugindevelop.activity.hook.HookInstrumentation
+import com.east.androidplugindevelop.activity.hook.PluginContext
+import com.east.androidplugindevelop.contentprovider.PluginUtils
+import dalvik.system.DexClassLoader
 import java.io.File
 
 /**
@@ -14,6 +18,40 @@ import java.io.File
 class BaseApplication :Application(){
     override fun onCreate() {
         super.onCreate()
-        HookInstrumentation.hook(ProxyActivity::class.java)
+        init()
     }
+
+    /**
+     *  加载插件
+     */
+    private fun init() {
+        extractPlugin()
+
+        var pluginPath = File(filesDir.absolutePath, "plugin.apk").absolutePath
+
+        var loadPluginDexManager = LoadPluginDexManager(this)
+        loadPluginDexManager.loadPlugin(pluginPath) //加载插件的类到本地ClassLoader
+
+        var nativeLibDir = File(filesDir, "pluginlib")
+        var dexOutPath = File(filesDir, "dexout")
+        if (!dexOutPath.exists()) {
+            dexOutPath.mkdirs()
+        }
+        var pluginClassLoader = DexClassLoader(pluginPath, dexOutPath.absolutePath, nativeLibDir.absolutePath, this::class.java.classLoader)
+        PluginUtils.classLoader = pluginClassLoader
+        HookInstrumentation.hook(this,
+            PluginContext(
+                pluginPath,
+                this,
+                this,
+                pluginClassLoader
+            )
+        )
+    }
+
+    private fun extractPlugin() {
+        var inputStream = assets.open("plugin.apk")
+        File(filesDir.absolutePath, "plugin.apk").writeBytes(inputStream.readBytes())
+    }
+
 }
