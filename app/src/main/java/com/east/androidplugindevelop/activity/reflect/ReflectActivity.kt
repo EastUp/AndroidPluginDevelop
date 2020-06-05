@@ -2,13 +2,20 @@ package com.east.androidplugindevelop.activity.reflect
 
 import android.app.Activity
 import android.os.Bundle
+import com.east.androidplugindevelop.activity.hook.Reflect
 import java.lang.reflect.Method
 
-class ReflectActivity(activity: String, activityClassLoader: ClassLoader?) {
-    private var clazz: Class<Activity> = activityClassLoader?.loadClass(activity) as Class<Activity>
+class ReflectActivity(activityClazz: String, activityClassLoader: ClassLoader?) {
+    private var clazz: Class<Activity> = activityClassLoader?.loadClass(activityClazz) as Class<Activity>
     private var activity: Activity = clazz.newInstance()
 
+
     fun attach(proxyActivity: Activity?) {
+        //需要把Window给它设置进去不然没法findViewById
+        val reflect = Reflect.on(activity)
+        reflect.set("mWindow",proxyActivity!!.window)
+        //设置mBase 否则Toast报错
+        reflect.set("mBase",proxyActivity!!.baseContext)
         getMethod("attach", Activity::class.java).invoke(activity, proxyActivity)
     }
 

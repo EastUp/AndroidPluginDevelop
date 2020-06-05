@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.east.androidplugindevelop.activity.StubBaseActivity
 import com.east.androidplugindevelop.activity.ainterface.iplugin.IPluginActivity
+import com.east.androidplugindevelop.activity.hook.Reflect
 
 class StubInterfaceActivity : StubBaseActivity() {
     private var activity: IPluginActivity? = null
@@ -13,6 +14,12 @@ class StubInterfaceActivity : StubBaseActivity() {
         super.onCreate(savedInstanceState)
         activity = activityClassLoader?.loadClass(activityName)?.newInstance() as IPluginActivity?
         activity?.attach(this)
+
+        //需要把Window给它设置进去不然没法findViewById
+        val reflect = Reflect.on(activity)
+        reflect.set("mWindow",window)
+        //设置mBase 否则Toast报错
+        reflect.set("mBase",baseContext)
         activity?.onCreate(savedInstanceState)
     }
 

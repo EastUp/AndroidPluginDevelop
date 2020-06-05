@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -115,9 +116,22 @@ public class HookInstrumentation extends Instrumentation {
         Context base = activity.getBaseContext();
         try {
             Reflect.on(base).set("mResources", pluginContext.getResources());
-            Reflect.on(activity).set("mResources", pluginContext.getResources());
-            Reflect.on(activity).set("mBase", pluginContext);
-            Reflect.on(activity).set("mApplication", pluginContext.getApplicationContext());
+            Reflect reflect = Reflect.on(activity);
+
+            // copy theme
+            //注意：占坑的Activity的theme和插件的Activity的theme必须一致,
+            // 如果没设置请确保宿主和插件application的theme一致
+            Resources.Theme theme = pluginContext.getResources().newTheme();
+            theme.setTo(activity.getTheme());
+            int themeResource = reflect.get("mThemeResource");
+            theme.applyStyle(themeResource, true);
+            reflect.set("mTheme",theme);
+
+            reflect.set("mResources", pluginContext.getResources());
+            reflect.set("mBase", pluginContext);
+            reflect.set("mApplication", pluginContext.getApplicationContext());
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

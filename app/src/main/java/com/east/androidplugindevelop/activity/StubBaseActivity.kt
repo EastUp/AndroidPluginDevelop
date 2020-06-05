@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.res.AssetManager
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.Window
+import androidx.appcompat.app.AppCompatActivity
+import com.east.androidplugindevelop.activity.hook.Reflect
 import dalvik.system.DexClassLoader
 import java.io.File
 
-open class StubBaseActivity : Activity() {
+open class StubBaseActivity : AppCompatActivity() {
 
     protected var activityClassLoader: ClassLoader? = null
     protected var activityName = ""
@@ -44,6 +47,10 @@ open class StubBaseActivity : Activity() {
         return activityClassLoader ?: super.getClassLoader()
     }
 
+    override fun getTheme(): Resources.Theme {
+        return pluginTheme ?:super.getTheme()
+    }
+
     private fun handleResources() {
         try {
             pluginAssetManager = AssetManager::class.java.newInstance()
@@ -54,5 +61,8 @@ open class StubBaseActivity : Activity() {
         pluginResources = Resources(pluginAssetManager, super.getResources().displayMetrics, super.getResources().configuration)
         pluginTheme = pluginResources?.newTheme()
         pluginTheme?.setTo(super.getTheme())
+        var reflect = Reflect.on(this)
+        val themeResource: Int = reflect.get("mThemeResource")
+        pluginTheme!!.applyStyle(themeResource, true)
     }
 }

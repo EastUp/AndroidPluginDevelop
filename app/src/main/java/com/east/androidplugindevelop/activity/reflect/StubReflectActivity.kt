@@ -3,6 +3,7 @@ package com.east.androidplugindevelop.activity.reflect
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Window
 import com.east.androidplugindevelop.activity.StubBaseActivity
 
 class StubReflectActivity : StubBaseActivity() {

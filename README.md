@@ -16,6 +16,11 @@
 
 需要先了解[Activity的启动流程](3.Activity的启动流程源码.md)
 
+`注意`：
+- 占坑的Activity的theme和插件的Activity的theme必须一致,如果没设置请确保宿主和插件application的theme一致
+- 最好采用hook的这种方式,反射和手动调用会存在View无法找到的问题
+
+
 最后请看`app`这个Module的示例
 
 
