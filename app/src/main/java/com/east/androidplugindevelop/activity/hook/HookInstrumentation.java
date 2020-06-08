@@ -88,12 +88,15 @@ public class HookInstrumentation extends Instrumentation {
     // 3.Hook Instrumentation.newActivity(ClassLoader cl, String className,Intent intent) 还原原来Intent
     @Override
     public Activity newActivity(ClassLoader cl, String className, Intent intent) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        Activity newActivity;
         ComponentName oldComponent = intent.getParcelableExtra(KEY_ORIGINAL_Component);
         if (oldComponent != null) {
             intent.setComponent(oldComponent);
             className = oldComponent.getClassName();
+            newActivity = (Activity) pluginContext.getClassLoader().loadClass(className).newInstance();
+        }else{
+            newActivity = super.newActivity(cl, className, intent);
         }
-        Activity newActivity = super.newActivity(cl, className, intent);
 
         return newActivity;
     }

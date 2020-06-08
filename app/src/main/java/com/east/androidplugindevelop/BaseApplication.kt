@@ -29,8 +29,9 @@ class BaseApplication :Application(){
 
         var pluginPath = File(filesDir.absolutePath, "plugin.apk").absolutePath
 
-        var loadPluginDexManager = LoadPluginDexManager(this)
-        loadPluginDexManager.loadPlugin(pluginPath) //加载插件的类到本地ClassLoader
+        //这步不需要，直接在hookInstrumentation中用pluginClassloader生成插件类，不然会起冲突。
+//        var loadPluginDexManager = LoadPluginDexManager(this)
+//        loadPluginDexManager.loadPlugin(pluginPath) //加载插件的类到本地ClassLoader
 
         var nativeLibDir = File(filesDir, "pluginlib")
         var dexOutPath = File(filesDir, "dexout")
